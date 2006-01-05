@@ -176,11 +176,20 @@ class Markup
 	end
 
 	def text_line(ln)
-		escape(ln)
+		out = []
+		while (ln =~ /(".*?"|[^\s]+)\<((ftp|http|mailto|news|irc):.*?)\>/)
+			pre, label, url, post = $`, $1, $2, $'
+			label = label[1..-2] if label =~ /^".*"$/
+			out << escape(pre)
+			out << "<a href=\"#{url}\">#{label}</a>"
+			ln = post
+		end
+		out << escape(ln)
+		out.join
 	end
 
 	def code_line(ln)
-		escape(ln)
+		CGI.escapeHTML(ln)
 	end
 
 	def list_item(ln)
@@ -194,7 +203,7 @@ class Markup
 	end
 
 	def escape(what)
-		CGI.escapeHTML(what)
+		CGI.escapeHTML(what).gsub(/~/, '&nbsp;')
 	end
 
 	def typeof(ln)

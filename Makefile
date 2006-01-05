@@ -1,6 +1,6 @@
 all: spec.html
 
-%.html: %.txt
+%.html: %.txt spec.rb
 	./spec.rb $< $@
 
 clean:
