@@ -1,0 +1,47 @@
+! Spec.rb documentation
+= Character escaping
+You won't do much with special chars here: <>!@#$%^&*()_+[]\
+
+= Paragraphs
+Each paragraph is separated by blank line.
+
+So this is second one.
+
+= Heading
+Each heading is denoted by one or more '=' at the very beginning of line.
+
+== So this is second level heading
+Not surprising, huh?
+
+= Lists:
+Besides the free-form text you can have lists. Either unnumbered (ul):
+
+* one
+* two
+* three
+
+or definition:
+
+: HTML = HyperText Mark-up Language
+: CSS = Cascading Style Sheets
+: HTTP = HyperText Transfer Protocol
+
+= Code blocks
+Another possibility is to have code blocks:
+{{{
+while(1){
+	printf("I am code, you know?\n");
+}
+}}}
+
+Good thing on code block is, it behaves like "verbatim" in TeX and the
+delimiters were selected to auto-fold in "vim".
+
+= Auto-TOC
+Of course the system has automatically generated TOC, whose items are
+pointing to appropriate headings in the spec.
+
+= That's it.
+Not much, but for writing specs it's sufficient, IMHO.
+
+Oh, and the HTML code should validate, IMHO.
