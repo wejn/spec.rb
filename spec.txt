@@ -61,6 +61,23 @@ Supported schemes are (for now): http, ftp, mailto, news, irc.
 Of course the system has automatically generated TOC, whose items are
 pointing to appropriate headings in the spec.
 
+= Alternative layout
+By default there's hardcoded layout at the end of spec.rb ... which
+is sometimes undesirable. You can specify alternative layout in two ways:
+* by placing global layout file with name "layout.spec" in same dir as source
+* by placing local (per-file) layout file with name "input.lsp" for "input.ext" file
+
+Layout can contain normal HTML/XHTML markup with special tags in form: {{{{TAG_NAME}}}}.
+
+Allowed/supported tag names are:
+: CONTENT = Content of the spec file (final markup)
+: TOC = Table of contents, including heading
+: TOC_NO_HEADING = Table of contents, excluding heading
+: TITLE = Title of the document
+: NOW = Timestamp created by Time.now.to_s
+: NOW_NUMERIC = Timestamp in form: "YYYY-MM-DD HH:MM:SS" (MySQL datetime format)
+: FILENAME = Input filename
+
 = That's it.
 Not much, but for writing specs it's sufficient, IMHO.
 

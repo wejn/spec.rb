@@ -4,6 +4,8 @@ require 'cgi'
 require 'digest/md5'
 
 class Markup
+	attr_accessor :layout
+
 	def initialize
 		clear
 	end
@@ -20,8 +22,10 @@ class Markup
 		template_replace(@layout, {
 			:content => @content.join("\n"),
 			:toc => @toc.join("\n"),
+			:toc_no_heading => @toc_nh.join("\n"),
 			:title => @title,
-			:now => @now,
+			:now => escape(@now.to_s),
+			:now_numeric => escape(@now.strftime("%Y-%m-%d %H:%M:%S")),
 			:filename => @filename,
 			})
 	end
@@ -67,13 +71,14 @@ class Markup
 	def clear
 		@content = []
 		@toc = []
+		@toc_nh = []
 		@toc_data = []
 		@state = :end
 		@errors = []
 		@current = []
 
 		@layout ||= DATA.read
-		@now = escape(Time.now.to_s)
+		@now = Time.now
 		@title = "Unnamed spec ({{{{FILENAME}}}})"
 		@filename = "?"
 		@heading_base = 1
@@ -81,7 +86,8 @@ class Markup
 	
 	def template_replace(where, what)
 		what.each do |k, v|
-			where.gsub!(Regexp.new(Regexp.escape("{{{{#{k.to_s}}}}}"), Regexp::IGNORECASE), v)
+			where.gsub!(Regexp.new(Regexp.escape("{{" + "{{#{k.to_s}}}" +
+				"}}"), Regexp::IGNORECASE), v)
 		end
 		where
 	end
@@ -109,9 +115,9 @@ class Markup
 				(lev-level).times do |i|
 					l = (lev + i - 1)
 					if l.zero?
-						@toc << (" " * l) + "<ul>"
+						@toc_nh << (" " * l) + "<ul>"
 					else
-						@toc << (" " * l) + "<li style='list-style-type: none;'><ul>"
+						@toc_nh << (" " * l) + "<li style='list-style-type: none;'><ul>"
 					end
 				end
 			when 0
@@ -120,16 +126,17 @@ class Markup
 				(level-lev).times do |i|
 					l = (level - i - 1)
 					if l.zero?
-						@toc << (" " * l) + "</ul>"
+						@toc_nh << (" " * l) + "</ul>"
 					else
-						@toc << (" " * l) + "</ul></li>"
+						@toc_nh << (" " * l) + "</ul></li>"
 					end
 				end
 			end
 			level = lev
-			@toc << (" " * lev) + '<li><a href="#' + key + '">' + entry + '</a></li>' unless key.nil? || entry.nil?
+			@toc_nh << (" " * lev) + '<li><a href="#' + key + '">' + entry + '</a></li>' unless key.nil? || entry.nil?
 		end
-		@toc << ""
+		@toc_nh << ""
+		@toc += @toc_nh
 	end
 
 	def heading(ln)
@@ -255,6 +262,13 @@ end
 
 content = []
 m = Markup.new
+
+['layout.spec', ARGV[0].gsub(/\.[^.]+$/, '') + '.lsp'].each do |file|
+	if FileTest.exists?(file)
+		m.layout = File.open(file, 'r').read
+		break
+	end
+end
 
 File.open(ARGV[0]) do |f|
 	m.process(f)
