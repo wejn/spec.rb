@@ -247,9 +247,7 @@ class Markup
 end
 
 if ARGV.size != 1 && ARGV.size != 2
-	puts <<-EOF
-		Usage: #$0 <input_file> [output_file]
-	EOF
+	puts "Usage: #$0 <input_file> [output_file]"
 	exit 1
 end
 
