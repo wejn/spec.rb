@@ -57,6 +57,8 @@ which will end up: "Ruby on Rails"<http://rubyonrails.org/>.
 
 Supported schemes are (for now): http, ftp, mailto, news, irc.
 
+Also supported is "relative link"<REL:spec.txt> scheme.
+
 = Auto-TOC
 Of course the system has automatically generated TOC, whose items are
 pointing to appropriate headings in the spec.
