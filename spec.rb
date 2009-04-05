@@ -184,9 +184,10 @@ class Markup
 
 	def text_line(ln)
 		out = []
-		while (ln =~ /(".*?"|[^\s]+)\<((ftp|http|mailto|news|irc):.*?)\>/)
+		while (ln =~ /(".*?"|[^\s]+)\<((ftp|http|mailto|news|irc|REL):.*?)\>/)
 			pre, label, url, post = $`, $1, $2, $'
 			label = label[1..-2] if label =~ /^".*"$/
+			url = url[4..-1] if url =~ /^REL:/
 			out << escape(pre)
 			out << "<a href=\"#{url}\">#{label}</a>"
 			ln = post
