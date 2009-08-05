@@ -87,7 +87,7 @@ class Markup
 	def template_replace(where, what)
 		what.each do |k, v|
 			where.gsub!(Regexp.new(Regexp.escape("{{" + "{{#{k.to_s}}}" +
-				"}}"), Regexp::IGNORECASE), v)
+				"}}"), Regexp::IGNORECASE), v.gsub(/\\/, '\\\\\\\\'))
 		end
 		where
 	end
