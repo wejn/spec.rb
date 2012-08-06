@@ -2,13 +2,18 @@
 = Character escaping
 You won't do much with special chars here: <>!@#$%^&*()_+[]\
 
+= Comments
+Every once a blue moon, you might need to comment out part of a document.
+# i love this feature ;)
+That's what lines starting with pound character (`#`) are for.
+
 = Paragraphs
 Each paragraph is separated by blank line.
 
 So this is second one.
 
 = Heading
-Each heading is denoted by one or more '=' at the very beginning of line.
+Each heading is denoted by one or more `=` at the very beginning of line.
 
 == So this is second level heading
 Not surprising, huh?
@@ -36,6 +41,17 @@ while(1){
 
 Good thing on code block is, it behaves like "verbatim" in TeX and the
 delimiters were selected to auto-fold in "vim".
+
+Code blocks also contain possibility of JavaScript powered syntax highlighting:
+{{{cpp
+while(1){
+	printf("I am code, you know?\n");
+}
+}}}
+
+In order for this to work opening curly braces `{{{` must be followed
+by name of the language used (`{{{cpp` in the example above).
+See "highlight.js"<http://softwaremaniacs.org/soft/highlight/en/> for details.
 
 = Inline code
 All occurences of text within backslash (`) per single line is treated
