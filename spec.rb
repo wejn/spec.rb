@@ -341,6 +341,7 @@ a:hover { background-color:#6291CA; color:white; }
 
 .content code {
 	background-color: #ddd;
+	white-space: nowrap;
 }
 
 .content em {
