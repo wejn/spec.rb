@@ -29,7 +29,9 @@ class Markup
 			:filename => @filename,
 			})
 		unless @code_lang_used
-			tpl_out.gsub!(/<!-- s:HILITE -->.*<!-- e:HILITE -->\s*/m, '')
+			tpl_out.
+				gsub!(/<!-- s:HILITE \{\{\{ -->.*<!-- e:HILITE \}\}\} -->\s*/m,
+					'')
 		end
 		tpl_out
 	end
@@ -323,7 +325,7 @@ __END__
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>{{{{TITLE}}}}</title>
-<!-- s:HILITE -->
+<!-- s:HILITE {{{ -->
 <!-- github hilite stylesheet -->
 <link rel="stylesheet" href="data:text/css;base64,
 LyoKCmdpdGh1Yi5jb20gc3R5bGUgKGMpIFZhc2lseSBQb2xvdm55b3YgPHZh
@@ -978,7 +980,7 @@ window.onload = function() {
 	}
 };
 </script>
-<!-- e:HILITE -->
+<!-- e:HILITE }}} -->
 <style type="text/css">
 /* <![CDATA[ */
 
