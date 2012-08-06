@@ -58,6 +58,9 @@ class Markup
 				@current << text_line(ln)
 			when :code
 				cond_switch_state(:code) or @current << code_line(ln)
+			when :img
+				cond_switch_state(:text)
+				@current << img(ln)
 			else
 				@errors << "Something weird at line: #{@line}"
 			end
@@ -184,7 +187,7 @@ class Markup
 
 	def text_line(ln)
 		out = []
-		while (ln =~ /(".*?"|[^\s]+)\<((ftp|http|mailto|news|irc|REL):.*?)\>/)
+		while (ln =~ /("[^"]*?"|[^\s]+)\<((ftp|https?|mailto|news|irc|REL):.*?)\>/)
 			pre, label, url, post = $`, $1, $2, $'
 			label = label[1..-2] if label =~ /^".*"$/
 			url = url[4..-1] if url =~ /^REL:/
@@ -194,6 +197,17 @@ class Markup
 		end
 		out << escape(ln)
 		out.join
+	end
+
+	def img(ln)
+		ar = ln.split(/\s+/)
+		ar.shift
+		out = []
+		out << "<img src=\"#{ar.first}\""
+		ar.shift
+		out << "style=\"#{ar.join(' ')}\"" unless ar.join(' ').empty?
+		out << "/>"
+		out.join(' ')
 	end
 
 	def code_line(ln)
@@ -211,7 +225,9 @@ class Markup
 	end
 
 	def escape(what)
-		CGI.escapeHTML(what).gsub(/~/, '&nbsp;')
+		CGI.escapeHTML(what).
+			gsub(/`(.*?)`/) { "<code>" + $1.gsub(/~/, '&#96;') + "</code>" }.
+			gsub(/~/, '&nbsp;')
 	end
 
 	def typeof(ln)
@@ -240,6 +256,8 @@ class Markup
 				:end
 			when /^\{\{\{/
 				:code
+			when /^@/
+				:img
 			else
 				:text
 			end
@@ -322,8 +340,7 @@ a:hover { background-color:#6291CA; color:white; }
 /* content */
 
 .content code {
-	display: block;
-	padding: 1em;
+	background-color: #ddd;
 }
 
 .content em {

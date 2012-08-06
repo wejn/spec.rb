@@ -37,12 +37,14 @@ while(1){
 Good thing on code block is, it behaves like "verbatim" in TeX and the
 delimiters were selected to auto-fold in "vim".
 
+= Inline code
+All occurences of text within backslash (`) per single line is treated
+as `inline code` block.
+
+That, `of course, means` putting stray `backslash` on a line like this: ` has no effect.
+
 = Non-breakable spaces
-All occurences of tilde:
-{{{
-~
-}}}
-will result in translation to non-breaking space: &nbsp;
+All occurences of tilde (`~`) will result in translation to non-breaking space: `&nbsp;`
 
 = URLs
 You can also specify URLs. Either:
@@ -55,9 +57,37 @@ which will be: Ruby<http://ruby-lang.org/> or:
 }}}
 which will end up: "Ruby on Rails"<http://rubyonrails.org/>.
 
-Supported schemes are (for now): http, ftp, mailto, news, irc.
+Supported schemes are (for now): http, https, ftp, mailto, news, irc.
 
 Also supported is "relative link"<REL:spec.txt> scheme.
+
+= Images
+All lines beginning with at-sign are interpreted as image tag.
+
+Syntax:
+{{{
+@ <url> [style]+
+}}}
+
+Ex1:
+{{{
+@ http://wejn.org/favicon.ico
+}}}
+@ http://wejn.org/favicon.ico
+
+Ex2:
+{{{
+@ http://wejn.org/favicon.ico border: 2px solid red
+}}}
+@ http://wejn.org/favicon.ico border: 2px solid red
+
+Ex3:
+{{{
+@ http://wejn.org/favicon.ico border: 2px solid green
+@ http://wejn.org/favicon.ico border: 2px solid red
+}}}
+@ http://wejn.org/favicon.ico border: 2px solid green
+@ http://wejn.org/favicon.ico border: 2px solid red
 
 = Auto-TOC
 Of course the system has automatically generated TOC, whose items are
