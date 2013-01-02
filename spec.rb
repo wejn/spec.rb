@@ -30,7 +30,7 @@ class Markup
 			})
 		unless @code_lang_used
 			tpl_out.
-				gsub!(/<!-- s:HILITE \{\{\{ -->.*<!-- e:HILITE \}\}\} -->\s*/m,
+				gsub!(/<!-- s:HILITE \{\{\{ -->.*?<!-- e:HILITE \}\}\} -->\s*/m,
 					'')
 		end
 		tpl_out
