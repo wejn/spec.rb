@@ -80,7 +80,7 @@ Also supported is "relative link"<REL:spec.txt> scheme.
 Also supported is "section link"<#:Hea> scheme (with "this variant"<#Hea>).
 
 Also, you can use empty label to get the <http://wejn.org/> URL itself used
-as the label.
+as the label. Not to mention "&@!#$!#@~*)!(^!#$&!()#$&)098$#&^!@#)$(*7<>!@#$$&*(^)"<http://google.com/> special chars shouldn't mess things up.
 
 = Images
 All lines beginning with at-sign are interpreted as image tag.
