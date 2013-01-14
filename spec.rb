@@ -35,6 +35,10 @@ class Markup
 		end
 		tpl_out
 	end
+
+	REF_LATE_BIND_ST = "\0\0\0\0SPECRB_LATEBIND_REF{{{"
+	REF_LATE_BIND_EN = "}}}SPECRB_LATEBIND_REF\0\0\0\0"
+	REF_LATE_BIND_SEP = "\0\0\0\0"
 	
 	def process(file)
 		clear
@@ -75,6 +79,36 @@ class Markup
 		end
 		flush
 		generate_toc
+		# resolve late binds, if any
+		@content.map! do |ln|
+			out = []
+			while ln =~ /#{REF_LATE_BIND_ST}(.*?)#{REF_LATE_BIND_SEP}(.*?)#{REF_LATE_BIND_EN}/
+				pre, label, url, post = $`, $1, $2, $'
+				out << pre
+				ao = []
+				ids = []
+				for level, name, id in @toc_data
+					if (name.index(url) || -1).zero?
+						ao << "<a href=\"#" + id + "\">" + escape(label) + "</a>"
+						ids << id
+					end
+				end
+				case ao.size
+				when 0
+					@errors << "Undefined reference `#{url}` with label `#{label}`."
+					out << escape(label)
+				when 1
+					out << ao.first
+				else
+					#@errors << "Multiple references for `#{url}` with label `#{label}`."
+					out << [escape(label), "[",
+						((1..ids.size).zip(ids).map { |l,i| "<a href=\"##{i}\">#{l}</a>"}).join(', '), "]"].join
+				end
+				ln = post
+			end
+			out << ln
+			out.join
+		end
 	end
 
 	private
@@ -94,6 +128,7 @@ class Markup
 		@heading_base = 1
 		@code_lang = nil
 		@code_lang_used = false
+		@resolve_sections = {}
 	end
 	
 	def template_replace(where, what)
@@ -157,7 +192,7 @@ class Markup
 			sz = ar[1].strip.size
 			cont = ar[2]
 			id = ::Digest::MD5.hexdigest(@toc_data.size.to_s + sz.to_s + cont)
-			@toc_data << [ar[1].strip.size, ar[2], id]
+			@toc_data << [sz, ar[2], id]
 			"<h#{@heading_base + sz}>" + "<a name='#{id}'></a>" + cont + "</h#{@heading_base + sz}>"
 		else
 			@errors << "BUG: Heading assertion failed (#{@line})"
@@ -203,12 +238,19 @@ class Markup
 
 	def text_line(ln)
 		out = []
-		while (ln =~ /("[^"]*?"|[^\s]+)\<((ftp|https?|mailto|news|irc|REL):.*?)\>/)
+		while (ln =~ /("[^"]*?"|[^\s]+)\<((ftp|https?|mailto|news|irc|REL|#):.*?)\>/)
 			pre, label, url, post = $`, $1, $2, $'
 			label = label[1..-2] if label =~ /^".*"$/
 			url = url[4..-1] if url =~ /^REL:/
 			out << escape(pre)
-			out << "<a href=\"#{url}\">#{label}</a>"
+			if url =~ /^#:/
+				url = url[2..-1]
+				out << [REF_LATE_BIND_ST,
+					label, REF_LATE_BIND_SEP, url,
+					REF_LATE_BIND_EN].join
+			else
+				out << "<a href=\"#{url}\">#{label}</a>"
+			end
 			ln = post
 		end
 		out << escape(ln)

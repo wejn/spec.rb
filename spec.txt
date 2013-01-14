@@ -77,6 +77,8 @@ Supported schemes are (for now): http, https, ftp, mailto, news, irc.
 
 Also supported is "relative link"<REL:spec.txt> scheme.
 
+Also supported is "section link"<#:Hea> scheme.
+
 = Images
 All lines beginning with at-sign are interpreted as image tag.
 
