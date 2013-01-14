@@ -8,6 +8,6 @@ In other words, a tool that takes in txt file and spits out pretty looking
 
 Why not markdown/rdoc/textile? Because they all suck.
 
-[Sample input](spec.txt)
+[Sample input](https://github.com/wejn/spec.rb/spec.txt)
 
 To see the actual HTML output you'll have to run the script. (surprise)
