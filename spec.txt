@@ -77,7 +77,10 @@ Supported schemes are (for now): http, https, ftp, mailto, news, irc.
 
 Also supported is "relative link"<REL:spec.txt> scheme.
 
-Also supported is "section link"<#:Hea> scheme.
+Also supported is "section link"<#:Hea> scheme (with "this variant"<#Hea>).
+
+Also, you can use empty label to get the <http://wejn.org/> URL itself used
+as the label.
 
 = Images
 All lines beginning with at-sign are interpreted as image tag.
