@@ -264,7 +264,7 @@ class Markup
 		out << "<img src=\"#{ar.first}\""
 		ar.shift
 		out << "style=\"#{ar.join(' ')}\"" unless ar.join(' ').empty?
-		out << "/>"
+		out << " alt=\"image\" />"
 		out.join(' ')
 	end
 
@@ -1012,7 +1012,7 @@ bmVyIixiOiJcXGIoZGVxdWV8bGlzdHxxdWV1ZXxzdGFja3x2ZWN0b3J8bWFw
 fHNldHxiaXRzZXR8bXVsdGlzZXR8bXVsdGltYXB8dW5vcmRlcmVkX21hcHx1
 bm9yZGVyZWRfc2V0fHVub3JkZXJlZF9tdWx0aXNldHx1bm9yZGVyZWRfbXVs
 dGltYXB8YXJyYXkpXFxzKjwiLGU6Ij4iLGs6YixyOjEwLGM6WyJzZWxmIl19
-XX19fShobGpzKTs="></script>
+XX19fShobGpzKTs=" type="text/javascript"></script>
 <!-- e:HILITE }}} -->
 <!-- jQuery 1.7.2 min {{{ -->
 <script src="data:text/javascript;base64,
@@ -2679,7 +2679,8 @@ cm4gTWF0aC5tYXgoYS5ib2R5W2VdLGlbZV0sYS5ib2R5W2ddLGlbZ10pfWlmKGg9PT1iKXtrPWYu
 Y3NzKGEsYyksbD1wYXJzZUZsb2F0KGspO3JldHVybiBmLmlzTnVtZXJpYyhsKT9sOmt9ZihhKS5j
 c3MoYyxoKX0sYyxhLGFyZ3VtZW50cy5sZW5ndGgsbnVsbCl9fSksYS5qUXVlcnk9YS4kPWYsdHlw
 ZW9mIGRlZmluZT09ImZ1bmN0aW9uIiYmZGVmaW5lLmFtZCYmZGVmaW5lLmFtZC5qUXVlcnkmJmRl
-ZmluZSgianF1ZXJ5IixbXSxmdW5jdGlvbigpe3JldHVybiBmfSl9KSh3aW5kb3cpOw=="></script>
+ZmluZSgianF1ZXJ5IixbXSxmdW5jdGlvbigpe3JldHVybiBmfSl9KSh3aW5kb3cpOw=="
+type="text/javascript"></script>
 <!-- jQuery 1.7.2 min }}} -->
 <script type="text/javascript">
 $(document).ready(function() {
