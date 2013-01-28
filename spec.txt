@@ -22,7 +22,7 @@ Not surprising, huh?
 Besides the free-form text you can have lists. Either unnumbered (ul):
 
 * one
-* two
+* two (with a link<#URLs>)
 * three
 
 or definition:
@@ -58,6 +58,15 @@ All occurences of text within backslash (`) per single line is treated
 as `inline code` block.
 
 That, `of course, means` putting stray `backslash` on a line like this: ` has no effect.
+
+= Highlighted text
+All occurences of text within caret (^) per single line is treated
+as ^highlighted text^.
+
+That, ^of course, means^ putting stray ^caret^ on a line like this: ^ has no effect.
+
+= Keywords
+All occurences of FIXME, XXX, TODO are treated as keywords and marked as such.
 
 = Non-breakable spaces
 All occurences of tilde (`~`) will result in translation to non-breaking space: `&nbsp;`

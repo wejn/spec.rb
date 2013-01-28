@@ -89,19 +89,19 @@ class Markup
 				ids = []
 				for level, name, id in @toc_data
 					if (name.index(url) || -1).zero?
-						ao << "<a href=\"#" + id + "\">" + escape(label) + "</a>"
+						ao << "<a href=\"#" + id + "\">" + escape(label, false) + "</a>"
 						ids << id
 					end
 				end
 				case ao.size
 				when 0
 					@errors << "Undefined reference `#{url}` with label `#{label}`."
-					out << escape(label)
+					out << escape(label, false)
 				when 1
 					out << ao.first
 				else
 					#@errors << "Multiple references for `#{url}` with label `#{label}`."
-					out << [escape(label), "[",
+					out << [escape(label, false), "[",
 						((1..ids.size).zip(ids).map { |l,i| "<a href=\"##{i}\">#{l}</a>"}).join(', '), "]"].join
 				end
 				ln = post
@@ -229,7 +229,7 @@ class Markup
 	def def_list_item(ln)
 		ar = ln.split(/^(:\s*)(.*?)(\s*=\s*)(.*)/)
 		if ar.size == 5 && ar[0] == "" && ar[1] =~ /:\s*/ && ar[3] =~ /\s*=\s*/
-			"<dt>" + escape(ar[2]) + "</dt>\n<dd>" + escape(ar[4]) + "</dd>"
+			"<dt>" + text_line(ar[2]) + "</dt>\n<dd>" + text_line(ar[4]) + "</dd>"
 		else
 			@errors << "BUG: Def_list_item assertion failed (#{@line})"
 			""
@@ -249,7 +249,7 @@ class Markup
 					label.empty? ? url : label, REF_LATE_BIND_SEP, url,
 					REF_LATE_BIND_EN].join
 			else
-				out << "<a href=\"#{url}\">#{escape(label.empty? ? url : label)}</a>"
+				out << "<a href=\"#{url}\">#{escape(label.empty? ? url : label, false)}</a>"
 			end
 			ln = post
 		end
@@ -261,10 +261,11 @@ class Markup
 		ar = ln.split(/\s+/)
 		ar.shift
 		out = []
-		out << "<img src=\"#{ar.first}\""
+		src = ar.first
+		out << "<img src=\"#{escape(src, false)}\""
 		ar.shift
 		out << "style=\"#{ar.join(' ')}\"" unless ar.join(' ').empty?
-		out << " alt=\"image\" />"
+		out << " alt=\"#{escape(src, false)} image\" />"
 		out.join(' ')
 	end
 
@@ -275,17 +276,24 @@ class Markup
 	def list_item(ln)
 		ar = ln.split(/^(\*\s+)/)
 		if ar.size == 3 && ar[0].empty?
-			"<li>" + escape(ar[2]) + "</li>"
+			"<li>" + text_line(ar[2]) + "</li>"
 		else
 			@errors << "BUG: List_item assertion failed (#{@line})"
 			""
 		end
 	end
 
-	def escape(what)
-		CGI.escapeHTML(what).
-			gsub(/`(.*?)`/) { "<code>" + $1.gsub(/~/, '&#96;') + "</code>" }.
-			gsub(/~/, '&nbsp;')
+	def escape(what, inline_groups = true)
+		out = CGI.escapeHTML(what)
+		if inline_groups
+			out = out.gsub(/`(.*?)`/) {
+					"<code>" + $1.gsub(/~/, '&#126;') + "</code>"
+				}.gsub(/\^(.*?)\^/) { "<em>" + $1 + "</em>" }.
+				gsub(/~/, '&nbsp;').
+				gsub(/(TODO|XXX|FIXME)/) {
+					"<span class=\"keyword\">" + $1 + "</span>" }
+		end
+		out
 	end
 
 	def typeof(ln)
@@ -2745,7 +2753,13 @@ a:hover { background-color:#6291CA; color:white; }
 }
 
 .content em {
-	color: #f00;
+	background-color: yellow;
+	font-style: normal;
+}
+
+.content .keyword {
+	font-weight: bold;
+	color: #07f;
 }
 
 .content h2 {
