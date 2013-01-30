@@ -119,6 +119,22 @@ Ex3:
 @ http://wejn.org/favicon.ico border: 2px solid green
 @ http://wejn.org/favicon.ico border: 2px solid red
 
+= Tables
+All lines beginning with pipe (`|`) character denote table. All cells are
+separated with pipe, too.
+
+Heading row can be created using two pipes (`||`) at the beginning of line.
+If you want first cell empty, use one non-breakable space: `|~|`.
+
+||Name|Value
+|One|2
+|Two|3
+|Three|5
+|~|Empty space
+||Name|Value
+|Link|<#URLs>
+|Inline|This TODO `should` ^also^ display
+
 = Auto-TOC
 Of course the system has automatically generated TOC, whose items are
 pointing to appropriate headings in the spec.
