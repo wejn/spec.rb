@@ -7,7 +7,7 @@ clean:
 	rm -f *.html
 
 watch:
-	onfilechange 'spec.*' './spec.rb spec.txt ~/download/spec.html'
+	onfilechange spec.txt make
 
 push: all
 	scp spec.txt spec.html wejn@platinum:www/stuff/

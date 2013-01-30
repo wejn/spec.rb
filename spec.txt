@@ -135,15 +135,6 @@ If you want first cell empty, use one non-breakable space: `|~|`.
 |Link|<#URLs>
 |Inline|This TODO `should` ^also^ display
 
-You could also align the table cells in your source, to look a bit prettier:
-
-|| Numbers | here
-|  One     | 1
-|  Two     | 2
-|  Three   | 3
-
-And it is properly supported (heading/trailing space is deleted).
-
 = Auto-TOC
 Of course the system has automatically generated TOC, whose items are
 pointing to appropriate headings in the spec.

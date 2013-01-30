@@ -275,11 +275,11 @@ class Markup
 	end
 
 	def table_line(ln)
-		tag, heading = "td", false
+		tag, i, heading = "td", 1, false
 		if ln[0,2] == "||"
-			tag, heading = "th", true
+			tag, i, heading = "th", 2, true
 		end
-		ar = ln.sub(/^\s*\|{1,2}\s*/, '').split(/\s*\|\s*/)
+		ar = ln[i..-1].split(/\|/)
 		[
 			(heading ? "<tr class=\"heading\">" : "<tr>" ) + "<#{tag}>",
 			ar.map { |x| text_line(x) }.join("</#{tag}><#{tag}>"),
