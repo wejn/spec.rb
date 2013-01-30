@@ -183,7 +183,7 @@ class Markup
 				end
 			end
 			level = lev
-			@toc_nh << (" " * lev) + '<li><a href="#' + key + '">' + entry + '</a></li>' unless key.nil? || entry.nil?
+			@toc_nh << (" " * lev) + '<li><a href="#' + key + '">' + escape(entry,false) + '</a></li>' unless key.nil? || entry.nil?
 		end
 		@toc_nh << ""
 		@toc += @toc_nh
@@ -196,7 +196,7 @@ class Markup
 			cont = ar[2]
 			id = ::Digest::MD5.hexdigest(@toc_data.size.to_s + sz.to_s + cont)
 			@toc_data << [sz, ar[2], id]
-			"<h#{@heading_base + sz}>" + "<a name='#{id}'></a>" + cont + "</h#{@heading_base + sz}>"
+			"<h#{@heading_base + sz}>" + "<a name='#{id}'></a>" + escape(cont, false) + "</h#{@heading_base + sz}>"
 		else
 			@errors << "BUG: Heading assertion failed (#{@line})"
 			""
