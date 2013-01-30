@@ -11,3 +11,8 @@ watch:
 
 push: all
 	scp spec.txt spec.html wejn@platinum:www/stuff/
+
+togithub:
+	test -d .git
+	svn2git --rebase
+	git push origin master
