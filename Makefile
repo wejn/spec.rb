@@ -13,6 +13,8 @@ push: all
 	scp spec.txt spec.html wejn@platinum:www/stuff/
 
 togithub: push
+	test -z "`svn status -q`"
 	test -d .git
+	git reset --hard
 	svn2git --rebase
 	git push origin master
