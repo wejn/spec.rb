@@ -2843,6 +2843,7 @@ dt:after {
 }
 
 dt.sized {
+	clear: left;
 	float: left;
 }
 
