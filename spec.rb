@@ -308,6 +308,7 @@ class Markup
 					"<code>" + $1.gsub(/~/, '&#126;') + "</code>"
 				}.gsub(/\^(.*?)\^/) { "<em>" + $1 + "</em>" }.
 				gsub(/~/, '&nbsp;').
+				gsub(/;;/, '<br />').
 				gsub(/(TODO|XXX|FIXME)/) {
 					"<span class=\"keyword\">" + $1 + "</span>" }
 		end
@@ -2721,6 +2722,7 @@ $(document).ready(function() {
 					dlm = $(this).width();
 			});
 			$(this).find("dt").width(dlm);
+			$(this).find("dd").css("padding-left", (dlm / parseFloat($("body").css("font-size")) - 2.5) + "em");
 		});
 	});
 });

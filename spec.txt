@@ -71,6 +71,9 @@ All occurences of FIXME, XXX, TODO are treated as keywords and marked as such.
 = Non-breakable spaces
 All occurences of tilde (`~`) will result in translation to non-breaking space: `&nbsp;`
 
+= Explicit line-breaks
+All occurences of two semicolons (`;``;`) will translate to;;explicit;;line;;break.
+
 = URLs
 You can also specify URLs. Either:
 {{{
